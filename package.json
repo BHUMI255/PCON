@@ -12,6 +12,6 @@
   },
   "scripts": {
     "postinstall": "cd backend && npx prisma generate",
-    "build": "cd frontend && npm install && npm run build && cp -r dist ../"
+    "build": "cd frontend && npm install && npm run build && rm -rf ../public ../dist && cp -r dist ../public && cp -r dist ../dist"
   }
 }
