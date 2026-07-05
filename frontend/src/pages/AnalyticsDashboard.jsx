@@ -33,7 +33,6 @@ export default function AnalyticsDashboard() {
   if (loading && !data) {
     return (
       <div className="min-h-screen bg-[#080c14] flex flex-col">
-        <Navbar />
         <div className="flex-grow flex flex-col items-center justify-center">
           <Activity className="animate-pulse text-green-400 mb-4" size={48} />
           <p className="text-gray-400 font-bold tracking-widest text-xs uppercase">Crunching Live Analytics...</p>
@@ -45,7 +44,6 @@ export default function AnalyticsDashboard() {
   if (error) {
     return (
       <div className="min-h-screen bg-[#080c14] flex flex-col">
-        <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <p className="text-red-400 font-bold bg-red-500/10 border border-red-500/20 px-6 py-4 rounded-xl">{error}</p>
         </div>
@@ -57,7 +55,6 @@ export default function AnalyticsDashboard() {
 
   return (
     <div className="min-h-screen bg-[#080c14] text-white">
-      <Navbar />
 
       <main className="max-w-7xl mx-auto px-6 py-12 space-y-12">
         {/* Header */}
