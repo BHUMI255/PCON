@@ -30,7 +30,7 @@ export default function Profile() {
       setProfilePic(user.profilePic || '');
       
       // Fetch full stats from the backend /api/auth/profile
-      axios.get('http://localhost:5000/api/auth/profile')
+      axios.get(`${import.meta.env.VITE_API_URL}/auth/profile`)
         .then(res => {
           setStats({
             issuesReported: res.data.issuesReported || 0,

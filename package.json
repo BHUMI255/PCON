@@ -11,7 +11,7 @@
     "prisma": "^5.12.1"
   },
   "scripts": {
-    "postinstall": "cd backend && npx prisma generate",
+    "postinstall": "npx prisma generate --schema=backend/prisma/schema.prisma",
     "build": "cd frontend && npm install && npm run build && rm -rf ../public ../dist && cp -r dist ../public && cp -r dist ../dist"
   }
 }
