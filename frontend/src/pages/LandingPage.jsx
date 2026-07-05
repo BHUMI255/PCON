@@ -13,6 +13,7 @@ export default function LandingPage() {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [locality, setLocality] = useState('');
+  const [role, setRole] = useState('CITIZEN');
   const [error, setError] = useState('');
   const [mockStats, setMockStats] = useState({ issues: 320, resolved: 245, volunteers: 110 });
 
@@ -42,7 +43,7 @@ export default function LandingPage() {
     setError('');
     try {
       if (isRegister) {
-        await signup(name, email, password, locality);
+        await signup(name, email, password, locality, role);
       } else {
         await login(email, password);
       }
@@ -150,6 +151,17 @@ export default function LandingPage() {
                       onChange={e => setLocality(e.target.value)}
                       className="w-full bg-black/40 border border-white/20 outline-none rounded-lg px-4 py-2.5 text-sm text-white placeholder-gray-400 transition-all focus:border-white/50"
                     />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-white uppercase mb-1">Account Type</label>
+                    <select 
+                      value={role} 
+                      onChange={e => setRole(e.target.value)}
+                      className="w-full bg-black/40 border border-white/20 outline-none rounded-lg px-4 py-2.5 text-sm text-white transition-all focus:border-white/50 appearance-none"
+                    >
+                      <option value="CITIZEN">Citizen (Report Issues)</option>
+                      <option value="OFFICIAL">Community Member (Verify & Solve)</option>
+                    </select>
                   </div>
                 </>
               )}

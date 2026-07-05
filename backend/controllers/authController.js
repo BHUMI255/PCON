@@ -4,7 +4,7 @@ const prisma = require('../prismaClient');
 
 const register = async (req, res) => {
   try {
-    const { name, email, password, locality } = req.body;
+    const { name, email, password, locality, role } = req.body;
     
     if (!name || !email || !password) {
       return res.status(400).json({ message: 'All fields (name, email, password) are required' });
@@ -18,13 +18,18 @@ const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    let assignedRole = 'CITIZEN';
+    if (role === 'OFFICIAL' || role === 'CITIZEN') {
+        assignedRole = role;
+    }
+
     const user = await prisma.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
         locality: locality || '',
-        role: 'CITIZEN'
+        role: assignedRole
       }
     });
 
