@@ -1,0 +1,218 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  CITIZEN
+  OFFICIAL
+  MODERATOR
+  ADMIN
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum IssueStatus {
+  REPORTED
+  UNDER_REVIEW
+  ASSIGNED
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum EventCategory {
+  CLEANLINESS
+  PLANTATION
+  MEETING
+  RECYCLING
+  AWARENESS
+  OTHER
+}
+
+enum EventStatus {
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id                 String       @id @default(uuid())
+  name               String
+  email              String       @unique
+  password           String?      // Optional if Google OAuth is used
+  googleId           String?      @unique
+  role               Role         @default(CITIZEN)
+  profilePic         String?      @default("")
+  locality           String?      @default("")
+  
+  // Community metrics
+  issuesReported     Int          @default(0)
+  issuesResolved     Int          @default(0)
+  participationScore Int          @default(0)
+  badges             String[]     @default([])
+
+  // Relations
+  reportedIssues     Issue[]      @relation("ReportedBy")
+  assignedIssues     Issue[]      @relation("AssignedTo")
+  issueUpvotes       IssueUpvote[]
+  officialUpdates    OfficialUpdate[]
+  discussions        Discussion[]
+  discussionUpvotes  DiscussionUpvote[]
+  comments           Comment[]
+  replies            Reply[]
+  organizedEvents    Event[]      @relation("Organizer")
+  volunteeredEvents  VolunteerRegistration[]
+
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+}
+
+model Issue {
+  id                 String       @id @default(uuid())
+  title              String
+  description        String
+  category           String       // e.g. "Sanitation", "Roads"
+  images             String[]     @default([])
+  latitude           Float
+  longitude          Float
+  address            String?
+  severity           Severity     @default(MEDIUM)
+  status             IssueStatus  @default(REPORTED)
+  anonymous          Boolean      @default(false)
+  verified           Boolean      @default(false)
+  aiFraudScore       Float        @default(1.0)
+  
+  // Relations
+  reportedById       String
+  reportedBy         User         @relation("ReportedBy", fields: [reportedById], references: [id], onDelete: Cascade)
+  assignedToId       String?
+  assignedTo         User?        @relation("AssignedTo", fields: [assignedToId], references: [id], onDelete: SetNull)
+  
+  upvoteCount        Int          @default(0)
+  upvotes            IssueUpvote[]
+
+  // Resolution evidence
+  resolutionImage    String?
+  resolutionDesc     String?
+  resolvedAt         DateTime?
+
+  officialUpdates    OfficialUpdate[]
+  
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+}
+
+model IssueUpvote {
+  userId             String
+  issueId            String
+  user               User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  issue              Issue        @relation(fields: [issueId], references: [id], onDelete: Cascade)
+
+  @@id([userId, issueId])
+}
+
+model OfficialUpdate {
+  id                 String       @id @default(uuid())
+  content            String
+  postedById         String
+  postedBy           User         @relation(fields: [postedById], references: [id], onDelete: Cascade)
+  issueId            String
+  issue              Issue        @relation(fields: [issueId], references: [id], onDelete: Cascade)
+  createdAt          DateTime     @default(now())
+}
+
+model Discussion {
+  id                 String       @id @default(uuid())
+  title              String
+  content            String
+  images             String[]     @default([])
+  category           String
+  locality           String
+  hidden             Boolean      @default(false)
+  authorId           String
+  author             User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  upvotes            DiscussionUpvote[]
+  comments           Comment[]
+
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+}
+
+model DiscussionUpvote {
+  userId             String
+  discussionId       String
+  user               User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  discussion         Discussion   @relation(fields: [discussionId], references: [id], onDelete: Cascade)
+
+  @@id([userId, discussionId])
+}
+
+model Comment {
+  id                 String       @id @default(uuid())
+  content            String
+  images             String[]     @default([])
+  authorId           String
+  author             User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  hidden             Boolean      @default(false)
+  discussionId       String
+  discussion         Discussion   @relation(fields: [discussionId], references: [id], onDelete: Cascade)
+  
+  replies            Reply[]
+
+  createdAt          DateTime     @default(now())
+}
+
+model Reply {
+  id                 String       @id @default(uuid())
+  content            String
+  authorId           String
+  author             User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  hidden             Boolean      @default(false)
+  commentId          String
+  comment            Comment      @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  createdAt          DateTime     @default(now())
+}
+
+model Event {
+  id                 String       @id @default(uuid())
+  title              String
+  description        String
+  category           EventCategory
+  organizerId        String
+  organizer          User         @relation("Organizer", fields: [organizerId], references: [id], onDelete: Cascade)
+  address            String
+  latitude           Float?
+  longitude          Float?
+  dateTime           DateTime
+  maxVolunteers      Int?
+  status             EventStatus  @default(UPCOMING)
+  
+  volunteers         VolunteerRegistration[]
+
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+}
+
+model VolunteerRegistration {
+  userId             String
+  eventId            String
+  reminderEnabled    Boolean      @default(false)
+  reminderMinsBefore Int          @default(60)
+  user               User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event              Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@id([userId, eventId])
+}

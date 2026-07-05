@@ -1,0 +1,332 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Teko:wght@400;500;600;700&display=swap');
+
+/* Custom scrollbars and styling for the premium hackathon look */
+body {
+  margin: 0;
+  font-family: 'Rajdhani', system-ui, -apple-system, sans-serif;
+  background-color: #0A0710 !important;
+  /* Exact dark purple moody background mimicking the organic shapes */
+  background-image: 
+    radial-gradient(circle at 15% 25%, #16142F 25%, transparent 50%),
+    radial-gradient(circle at 75% 15%, #1D1635 30%, transparent 55%),
+    radial-gradient(circle at 45% 75%, #16142F 35%, transparent 60%),
+    radial-gradient(circle at 85% 85%, #1D1635 25%, transparent 50%) !important;
+  background-size: 150% 150%;
+  background-attachment: fixed;
+  background-attachment: fixed;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  overflow-x: hidden;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Force font color for all general texts */
+h1, h2, h3, h4, h5, h6, p, a, span, button, li, nav, div, label, textarea {
+  color: #e2e8f0 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Teko', sans-serif;
+  color: #ffffff !important;
+  text-shadow: none !important;
+  letter-spacing: 0.05em;
+}
+
+p, span, label, div {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.1rem;
+}
+
+/* Fix faded login text inside inputs */
+input {
+  opacity: 1 !important;
+  color: #1A1A2E !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+}
+
+/* High contrast buttons */
+button {
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #111827;
+}
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #22c55e;
+}
+
+/* ──────────────────────────────────────────────────────────
+   Premium Glassmorphism Design System
+   ────────────────────────────────────────────────────────── */
+
+/* Glass Cards: Frosted glass container with distinct blur and 1px borders */
+.glass-card {
+  background: rgba(10, 5, 20, 0.6) !important;
+  backdrop-filter: blur(16px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  background: rgba(10, 5, 20, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Dark Glass Cards: Better contrast for dense dashboard overlays */
+.glass-card-dark {
+  background: rgba(15, 23, 42, 0.55) !important;
+  backdrop-filter: blur(20px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-dark:hover {
+  background: rgba(15, 23, 42, 0.65) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Glass Navbar: Perfect transparency and blur for sticky navigation */
+.glass-navbar {
+  background: rgba(11, 15, 25, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Glass Modals: Deep blur and higher occlusion to focus attention */
+.glass-modal {
+  background: rgba(15, 23, 42, 0.75) !important;
+  backdrop-filter: blur(24px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 24px 64px 0 rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Glass Inputs: Styled text fields with light highlights and clear focus ring */
+.glass-input {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: #22c55e !important;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.15) !important;
+  outline: none !important;
+}
+
+.glass-input::placeholder {
+  color: rgba(255, 255, 255, 0.35) !important;
+}
+
+/* Accent glass components for specific statuses/urgencies */
+.glass-red {
+  background: rgba(239, 68, 68, 0.08) !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+  backdrop-filter: blur(16px) !important;
+}
+.glass-red:hover {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border-color: rgba(239, 68, 68, 0.3) !important;
+}
+
+.glass-amber {
+  background: rgba(245, 158, 11, 0.08) !important;
+  border: 1px solid rgba(245, 158, 11, 0.2) !important;
+  backdrop-filter: blur(16px) !important;
+}
+.glass-amber:hover {
+  background: rgba(245, 158, 11, 0.12) !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+.glass-green {
+  background: rgba(16, 185, 129, 0.08) !important;
+  border: 1px solid rgba(16, 185, 129, 0.2) !important;
+  backdrop-filter: blur(16px) !important;
+}
+.glass-green:hover {
+  background: rgba(16, 185, 129, 0.12) !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+/* Glow effects for text and buttons to stand out on top of glass layers */
+.text-glow {
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+}
+.text-glow-green {
+  text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+}
+
+/* ──────────────────────────────────────────────────────────
+   Global Glassmorphism Redesign Theme Overrides
+   ────────────────────────────────────────────────────────── */
+
+/* Make all main dark page containers transparent to let the glowing fixed background show through */
+.bg-\[\#0b0f19\], 
+.bg-\[\#080c14\],
+.bg-\[\#080c14\] {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Turn all card/nav containers into frosted-glass panes */
+.bg-\[\#111827\],
+.bg-gray-900\/80,
+.bg-gray-900\/40,
+.bg-gray-900,
+.bg-\[\#0f1520\],
+.bg-\[\#1f2937\],
+.bg-slate-900,
+header, nav, .card {
+  background: rgba(10, 5, 20, 0.6) !important;
+  backdrop-filter: blur(16px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(120%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Hover transitions on cards */
+.bg-\[\#111827\]:hover,
+.bg-gray-900:hover,
+.bg-gray-900\/40:hover {
+  background: rgba(10, 5, 20, 0.8) !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Specific styling for nested headers / tabs inside glass cards */
+.bg-\[\#0d1420\] {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Convert solid inputs/selects/textareas to frosted inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="url"],
+select,
+textarea {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: #22c55e !important;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.15) !important;
+  outline: none !important;
+}
+
+/* Override dark borders globally to look like clean, sharp glass lines */
+.border-gray-800,
+.border-gray-800\/60,
+.border-gray-800\/50,
+.border-gray-700,
+.border-gray-700\/50,
+.divide-gray-800\/30,
+.divide-gray-800\/50 {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Text adjustments for legibility: Ensure texts stand out */
+.text-gray-400 {
+  color: #cbd5e1 !important; /* Lighter gray for body readability */
+}
+.text-gray-500 {
+  color: #cbd5e1 !important; /* Make gray-500 pop more */
+}
+.text-gray-600 {
+  color: #e2e8f0 !important; /* Significantly lighter gray/slate for sub-headings */
+}
+.text-gray-700 {
+  color: #f1f5f9 !important; /* High contrast gray */
+}
+.text-gray-800 {
+  color: #f8fafc !important; /* Lighter/readable gray-800 values */
+}
+
+/* ──────────────────────────────────────────────────────────
+   Slide-Up Entrance Animations (No Fading)
+   ────────────────────────────────────────────────────────── */
+
+@keyframes pureSlideUp {
+  0% { transform: translate3d(0, 50px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  animation: pureSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0s backwards !important;
+  will-change: transform;
+}
+
+p, span, label, input, button {
+  animation: pureSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s backwards !important;
+  will-change: transform;
+}
+
+/* Target specifically the square cards, boxes, and containers */
+.glass-card, .bg-white\/5, .card, form {
+  animation: pureSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.35s backwards !important;
+  will-change: transform;
+}
+
+/* ──────────────────────────────────────────────────────────
+   High-Quality Scroll Reveal Animations
+   ────────────────────────────────────────────────────────── */
+@supports (animation-timeline: view()) {
+  .scroll-reveal {
+    animation: reveal-up 1s both cubic-bezier(0.22, 1, 0.36, 1);
+    animation-timeline: view();
+    animation-range: entry 10% cover 30%;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(80px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+
+
